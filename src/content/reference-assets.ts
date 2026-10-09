@@ -1,4 +1,4 @@
-/** Local reference assets. Provenance and rights status: public/assets/reference/sources.json. */
+/** Local reference assets. Source records: public/assets/reference/sources.json; brand attribution: README.md. */
 export function referenceAsset(path: string) {
   if (path === "/images/newhome/rios.png") return "/assets/brand/reos.png";
   if (path === "/global/main-logo.png") return "/assets/brand/main-logo.png";

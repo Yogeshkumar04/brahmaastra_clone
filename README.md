@@ -1,64 +1,75 @@
-# Brahmaastra homepage
+# Brahmaastra Homepage
 
-Next.js App Router, strict TypeScript, Tailwind CSS v4 and ESLint. Existing
-reference analysis and screenshots are preserved in `docs/`. The full homepage is implemented with the custom palette and verified at four viewport widths. Reference-based motion is implemented with reduced-motion support and a global pause control.
+A responsive frontend recreation of [brahmaastra.ai](https://brahmaastra.ai/), built with a custom dark palette and interactive motion.
 
-Local analysis, screenshots and QA reports are retained in the ignored `docs/` directory and are not included in the source upload. No deployment has been performed.
+**[Live demo](https://brahmaastra-clone.vercel.app/)**
 
-## Development
+## Features
 
-Requires Node.js 20.9+ and npm. Install with `npm ci`, then run `npm run dev`.
-Open http://localhost:3000. Copy `.env.example` to `.env.local` if configuring the
-site origin; set `NEXT_PUBLIC_SITE_URL` to the deployed origin before publishing.
-No environment variables are required for local development.
+- Responsive homepage with reusable components and typed content.
+- GSAP and ScrollTrigger animations, SVG artwork, and Lenis smooth scrolling.
+- Mobile navigation, FAQ accordion, partner carousel, and deterministic REOS conversation demo.
+- Keyboard navigation, reduced-motion support, and readable content before animation initialization.
+- Self-hosted fonts, Next.js image optimization, and page metadata.
+
+## Tech stack
+
+Next.js App Router, React, TypeScript, Tailwind CSS, GSAP, Lenis, and Lucide React.
+Server Components render page content; Client Components handle interactions and animation.
+
+## Local setup
+
+Requires Node.js 20.9 or later and npm.
+
+```bash
+npm ci
+npm run dev
+```
+
+Open [localhost:3000](http://localhost:3000).
+No environment variables are required for local development. To configure the site origin,
+copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL`.
+For production, use the deployed HTTPS origin in the build environment.
 
 ## Commands
 
-- `npm run dev`: development server
-- `npm run build`: production build, including Next.js TypeScript validation
-- `npm start`: serve the production build
-- `npm run lint`: ESLint with no warnings allowed
-- `npm run lint:fix`: apply automatic lint fixes
-- `npm run typecheck`: standalone TypeScript check
-- `npm run test`: deterministic REOS playback boundary tests
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm run build` | Create a production build |
+| `npm start` | Serve the production build |
+| `npm run lint` | Run ESLint |
+| `npm run lint:fix` | Apply automatic lint fixes |
+| `npm run typecheck` | Validate TypeScript |
+| `npm test` | Run REOS playback tests |
 
-## Structure
+## Project structure
 
 ```text
 src/
-  app/                 App Router pages, root layout, metadata, not-found and icon
+  app/                 Pages, root layout, metadata, and app icon
   components/
-    layout/            Shared site header/footer
-    home/              Homepage sections
-    motion/            Client-only animation boundaries when needed
-    ui/                Typed reusable presentation components
-  content/             Typed page content and site configuration
-  styles/              Tailwind entrypoint and semantic palette tokens
-  types/               Shared TypeScript contracts
-public/assets/         Images, icons, fonts and videos
+    home/              Homepage sections and interactions
+    layout/            Shared navigation and footer
+    motion/            Scoped animation and scrolling
+    ui/                Reusable presentation components
+  content/             Typed content and asset mappings
+  lib/                 Playback logic
+  styles/              Fonts, styles, and design tokens
+  types/               Shared TypeScript types
+public/assets/         Images, SVGs, fonts, and video
+tests/                 Playback tests
 ```
 
-Use `@/*` imports for `src/*`. Components are Server Components by default.
-Add `"use client"` only where interactivity requires it. GSAP, @gsap/react, Lenis and Lucide React are installed. `HeroMotion` scopes decorative GSAP particles; navigation uses a small client
-boundary for scrolling, dismissal and its accessible mobile dialog.
-`HomeMotion` mounts `SmoothScroll` once for the homepage; Unused initial motion/artwork wrappers were removed during production cleanup. Server Components pass content through their children. Semantic
-palette and measured dimensions live in `src/styles/tokens.css`. Manrope, Anton
-and DM Sans are self-hosted with license notices, so builds do not fetch fonts.
-Repeated homepage copy and data live in `src/content/home.ts`.
+## Scope and attribution
 
-Remaining sections use typed data and Server Components. FAQ and partner selection use controlled React state with native HTML fallbacks; scoped client boundaries handle progressive motion and floating CTA visibility.
-Non-homepage navigation links currently resolve to the original reference website;
-product subpages are not implemented locally. Reference brand asset provenance and
-rights status are recorded in `public/assets/brand/README.md`.
+This project implements the homepage. Product links lead to the reference website;
+the REOS conversation is a frontend demo with no backend integration.
 
-The setup follows the official [Next.js installation guide](https://nextjs.org/docs/app/getting-started/installation)
-and [Tailwind Next.js guide](https://tailwindcss.com/docs/installation/framework-guides/nextjs).
-
-## Production checks and prerequisites
-
-Run `npm run lint`, `npm run typecheck`, `npm run test`, then `npm run build`.
-Use `npm start -- --port 3001` for a production preview alongside the development server.
-Set `NEXT_PUBLIC_SITE_URL` to the final HTTPS origin in the build environment before release.
-Hosting must support this Next.js version and built-in image optimization; static export is not configured.
-Confirm reference asset reuse permissions before public distribution. Captions, artwork contrast,
-physical devices and Safari/Firefox remain manual-review items; automated QA is not full accessibility certification.
+The reference design, brand marks, partner logos, artwork, and marketing video belong
+to their respective owners. No redistribution license was identified for the reference
+assets. Asset source records are retained in `public/assets/reference/sources.json`;
+brand assets originate from the reference site's `/global/main-logo.png`,
+`/global/small-logo.svg`, `/svg/trishul/trishul-small.svg`, and `/images/newhome/rios.png`.
+The video poster is a frame captured from the reference video.
+Font source records and Open Font License notices are included in `public/assets/fonts/`.
