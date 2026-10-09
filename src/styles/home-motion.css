@@ -1,8 +1,5 @@
 /* All starting content remains visible. These classes exist only after initialization. */
 .motion-contents { display: contents; }
-.motion-toggle { display: none; position: fixed; z-index: 60; bottom: 16px; left: 16px; padding: 8px 12px; border: 1px solid var(--border-default); border-radius: var(--radius-pill); background: var(--background); color: var(--muted); font: 600 11px/16px var(--font-body); cursor: pointer; }
-.motion-ready .motion-toggle, [data-motion-paused="true"] .motion-toggle { display: block; }
-.motion-toggle:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
 .motion-stack .platform-card { position: sticky; top: 96px; transform-origin: center top; }
 .workflow-scroll.marquee-active { scroll-snap-type: none; }
 .workflow-scroll.marquee-active:focus-within .workflow-track { transform: none !important; }
@@ -22,9 +19,7 @@
   .motion-ready .reos-aura { animation: section-glow 9s ease-in-out infinite alternate; }
   .motion-ready .reos-ring { animation: section-glow 11s ease-in-out infinite alternate; }
 }
-[data-motion-paused="true"] *, [data-motion-paused="true"] *::before, [data-motion-paused="true"] *::after { animation-play-state: paused !important; }
 @media (prefers-reduced-motion: reduce) {
-  .motion-toggle { display: none !important; }
   .typing-caret::after { animation: none; }
 }
 .motion-background { display: none; position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
@@ -39,7 +34,6 @@
 .enterprise-feature-select:focus-visible { outline: 2px solid var(--primary); outline-offset: 6px; }
 .stats-metric { position: relative; }
 .stats-metric-glow { position: absolute; inset: 0; pointer-events: none; opacity: 0; border-radius: inherit; box-shadow: 0 0 10px color-mix(in srgb,var(--primary) 8%,transparent); }
-@media (max-width: 767px) { .motion-toggle { bottom: 100px; } }
 .reos-controls { display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 8px; }
 .reos-controls button { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; font: 600 12px/18px var(--font-body); color: var(--muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-pill); background: var(--surface); cursor: pointer; }
 .reos-controls button:hover { color: var(--text); border-color: var(--primary); }
@@ -55,7 +49,7 @@
 @media (prefers-reduced-motion: reduce) { .faq-row summary svg { transition: none; } .reos-typing-dots i { animation: none; } }
 .reos-conversation[data-playback="paused"] .typing-caret::after, .reos-conversation[data-playback="paused"] .reos-typing-dots i { animation-play-state: paused; }
 
-.motion-toggle, .reos-controls button { min-height: 44px; }
+.reos-controls button { min-height: 44px; }
 @media (pointer: coarse) {
   .partner-dot { min-width: 44px; height: 44px; }
   .partner-dots { flex-wrap: wrap; height: auto; min-height: 44px; }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -11,14 +11,9 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 /** Progressive enhancement: no CSS starting state hides server-rendered content. */
 export function HomeMotion({ children }: { children: ReactNode }) {
   const scope = useRef<HTMLDivElement>(null);
-  const [paused, setPaused] = useState(false);
   useGSAP(() => {
     const root = scope.current;
     if (!root) return;
-    root.dataset.motionPaused = String(paused);
-    document.documentElement.dataset.motionPaused = String(paused);
-    window.dispatchEvent(new CustomEvent("homepage-motion-pause", { detail: paused }));
-    if (paused) return () => { delete document.documentElement.dataset.motionPaused; window.dispatchEvent(new CustomEvent("homepage-motion-pause", { detail: false })); };
     const media = gsap.matchMedia();
     media.add({ motion: "(prefers-reduced-motion: no-preference)", desktop: "(min-width: 1024px) and (pointer: fine)", marquee: "(min-width: 768px) and (pointer: fine)", orbit: "(min-width: 640px)" }, context => {
       if (!context.conditions?.motion) return;
@@ -32,16 +27,11 @@ export function HomeMotion({ children }: { children: ReactNode }) {
         cleanups.push(() => element.removeEventListener(event, handler));
       };
       // Repeat effects consume no ticker work outside their section or in background tabs.
-      const manage = (animation: gsap.core.Animation, region: HTMLElement, hoverRegion = region) => {
+      const manage = (animation: gsap.core.Animation, region: HTMLElement) => {
         let visible = false;
-        let held = false;
-        const update = () => animation.paused(!visible || held || document.hidden);
+        const update = () => animation.paused(!visible || document.hidden);
         animation.pause();
         ScrollTrigger.create({ trigger: region, start: "top bottom", end: "bottom top", onToggle: self => { visible = self.isActive; update(); } });
-        listen(hoverRegion, "pointerenter", () => { held = true; update(); });
-        listen(hoverRegion, "pointerleave", () => { held = false; update(); });
-        listen(hoverRegion, "focusin", () => { held = true; update(); });
-        listen(hoverRegion, "focusout", event => { held = hoverRegion.contains((event as FocusEvent).relatedTarget as Node); update(); });
         listen(document, "visibilitychange", update);
       };
       const reveal = (targets: HTMLElement[], trigger: HTMLElement, duration = .8, distance = 40, stagger = .15) => {
@@ -144,7 +134,7 @@ export function HomeMotion({ children }: { children: ReactNode }) {
             // Scroll position preserves a native horizontal row rather than shifting a full-width box.
             const state = { x: 0 };
             const movement = gsap.to(state, { x: distance, duration: 22, repeat: -1, ease: "none", onUpdate: () => { track.scrollLeft = state.x; } });
-            manage(movement, integration, track);
+            manage(movement, integration);
             cleanups.push(() => { track.scrollLeft = 0; });
           }
         }
@@ -152,7 +142,7 @@ export function HomeMotion({ children }: { children: ReactNode }) {
           const distance = column.scrollHeight + 20;
           Array.from(column.children).forEach(child => clone(column, child));
           const animation = gsap.fromTo(column, { y: index % 2 ? -distance : 0 }, { y: index % 2 ? 0 : -distance, duration: 34 + index * 4, repeat: -1, ease: "none" });
-          manage(animation, column.closest<HTMLElement>("#testimonials")!, column);
+          manage(animation, column.closest<HTMLElement>("#testimonials")!);
         });
         const testimonials = root.querySelector<HTMLElement>(".testimonials-window");
         if (testimonials && marquee) { testimonials.classList.add("marquee-active"); cleanups.push(() => testimonials.classList.remove("marquee-active")); }
@@ -181,8 +171,8 @@ export function HomeMotion({ children }: { children: ReactNode }) {
       }
       return () => { cleanups.reverse().forEach(cleanup => cleanup()); };
     }, root);
-    return () => { media.revert(); delete document.documentElement.dataset.motionPaused; window.dispatchEvent(new CustomEvent("homepage-motion-pause", { detail: false })); };
-  }, { scope, dependencies: [paused], revertOnUpdate: true });
+    return () => media.revert();
+  }, { scope, dependencies: [], revertOnUpdate: true });
 
-  return <div ref={scope} className="homepage-motion motion-contents"><div className="motion-background" aria-hidden="true"><span /><span /><span /></div><SmoothScroll enabled={!paused}>{children}</SmoothScroll><button type="button" className="motion-toggle" aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? "Resume animations" : "Pause animations"}</button></div>;
+  return <div ref={scope} className="homepage-motion motion-contents"><div className="motion-background" aria-hidden="true"><span /><span /><span /></div><SmoothScroll>{children}</SmoothScroll></div>;
 }
