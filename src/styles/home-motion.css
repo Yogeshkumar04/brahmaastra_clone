@@ -1,0 +1,64 @@
+/* All starting content remains visible. These classes exist only after initialization. */
+.motion-contents { display: contents; }
+.motion-toggle { display: none; position: fixed; z-index: 60; bottom: 16px; left: 16px; padding: 8px 12px; border: 1px solid var(--border-default); border-radius: var(--radius-pill); background: var(--background); color: var(--muted); font: 600 11px/16px var(--font-body); cursor: pointer; }
+.motion-ready .motion-toggle, [data-motion-paused="true"] .motion-toggle { display: block; }
+.motion-toggle:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
+.motion-stack .platform-card { position: sticky; top: 96px; transform-origin: center top; }
+.workflow-scroll.marquee-active { scroll-snap-type: none; }
+.workflow-scroll.marquee-active:focus-within .workflow-track { transform: none !important; }
+.testimonials-window.marquee-active { overflow: hidden; }
+.testimonials-window.marquee-active:focus-within { overflow: auto; }
+.testimonials-window.marquee-active:focus-within .testimonials-column { transform: none !important; }
+.integration-nodes.marquee-active { scrollbar-width: none; }
+.reos-transcript > summary { cursor: pointer; color: var(--muted); font-size: 12px; line-height: 20px; padding-bottom: 12px; }
+.reos-transcript:not(.reos-transcript-enhanced) > summary { display: none; }
+.reos-transcript-enhanced { padding-top: 12px; }
+.reos-playback { min-height: 180px; }
+.typing-caret::after { content: "▏"; color: var(--primary); animation: chat-caret 1s steps(1) infinite; }
+@keyframes chat-caret { 50% { opacity: 0; } }
+@keyframes section-glow { from { opacity: .45; transform: scale(.98); } to { opacity: .85; transform: scale(1.03); } }
+@media (prefers-reduced-motion: no-preference) {
+  .motion-ready .footer-glow { animation: section-glow 5s ease-in-out infinite alternate; }
+  .motion-ready .reos-aura { animation: section-glow 9s ease-in-out infinite alternate; }
+  .motion-ready .reos-ring { animation: section-glow 11s ease-in-out infinite alternate; }
+}
+[data-motion-paused="true"] *, [data-motion-paused="true"] *::before, [data-motion-paused="true"] *::after { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  .motion-toggle { display: none !important; }
+  .typing-caret::after { animation: none; }
+}
+.motion-background { display: none; position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.motion-ready .motion-background { display: block; }
+.motion-background span { position: absolute; width: min(60vw,800px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle,color-mix(in srgb,var(--primary) 9%,transparent),transparent 70%); }
+.motion-background span:nth-child(1) { left: -20%; top: -25%; animation: section-glow 9s ease-in-out infinite alternate; }
+.motion-background span:nth-child(2) { right: -20%; top: 20%; background: radial-gradient(circle,color-mix(in srgb,var(--secondary) 9%,transparent),transparent 70%); animation: section-glow 11s ease-in-out infinite alternate; }
+.motion-background span:nth-child(3) { left: 20%; bottom: -45%; animation: section-glow 13s ease-in-out infinite alternate; }
+@media (max-width: 767px) { .motion-background { display: none !important; } }
+.enterprise-feature-select { display: none; position: absolute; inset: 0; border: 0; background: transparent; border-radius: 8px; cursor: pointer; }
+.motion-ready .enterprise-feature-select { display: block; }
+.enterprise-feature-select:focus-visible { outline: 2px solid var(--primary); outline-offset: 6px; }
+.stats-metric { position: relative; }
+.stats-metric-glow { position: absolute; inset: 0; pointer-events: none; opacity: 0; border-radius: inherit; box-shadow: 0 0 10px color-mix(in srgb,var(--primary) 8%,transparent); }
+@media (max-width: 767px) { .motion-toggle { bottom: 100px; } }
+.reos-controls { display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 8px; }
+.reos-controls button { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; font: 600 12px/18px var(--font-body); color: var(--muted); border: 1px solid var(--border-subtle); border-radius: var(--radius-pill); background: var(--surface); cursor: pointer; }
+.reos-controls button:hover { color: var(--text); border-color: var(--primary); }
+.reos-controls button:focus-visible, .faq-row summary:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
+.reos-typing-dots { display: inline-flex; gap: 4px; padding-block: 4px; }
+.reos-typing-dots i { width: 5px; height: 5px; background: var(--muted); border-radius: 50%; animation: reos-dot 1s ease-in-out infinite; }
+.reos-typing-dots i:nth-child(2) { animation-delay: .15s; }
+.reos-typing-dots i:nth-child(3) { animation-delay: .3s; }
+@keyframes reos-dot { 0%,100% { transform: translateY(0); opacity: .5; } 50% { transform: translateY(-4px); opacity: 1; } }
+.partner-panels { position: relative; }
+.partner-panel { grid-area: 1/1; }
+.faq-row summary svg { transition: transform .3s ease,color .3s ease; }
+@media (prefers-reduced-motion: reduce) { .faq-row summary svg { transition: none; } .reos-typing-dots i { animation: none; } }
+.reos-conversation[data-playback="paused"] .typing-caret::after, .reos-conversation[data-playback="paused"] .reos-typing-dots i { animation-play-state: paused; }
+
+.motion-toggle, .reos-controls button { min-height: 44px; }
+@media (pointer: coarse) {
+  .partner-dot { min-width: 44px; height: 44px; }
+  .partner-dots { flex-wrap: wrap; height: auto; min-height: 44px; }
+  .site-footer nav a { display: flex; align-items: center; min-height: 44px; }
+  .footer-support a, .footer-contact a { display: inline-flex; align-items: center; min-height: 44px; }
+}

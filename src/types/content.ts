@@ -1,0 +1,14 @@
+export type NavigationItem = Readonly<{ label: string; href: string }>;
+export type SiteContent = Readonly<{ name: string; description: string }>;
+export type IconName = "BrainCircuit" | "Network" | "Blocks" | "TrendingUp" | "MessagesSquare" | "ChartNoAxesCombined" | "Users" | "HeartHandshake" | "Radio" | "Database" | "LockKeyhole" | "ShieldCheck";
+export type Feature = Readonly<{ id: string; title: string; description: string; icon: IconName }>;
+export type Product = Readonly<{ name: string; description: string; href: string }>;
+export type WorkflowTopic = Feature & Readonly<{ number: string; accent: "primary" | "secondary" }>;
+export type Metric = Readonly<{ value: number; suffix: string; label: string }>;
+export type PlatformCard = Readonly<{ id: string; eyebrow: string; title: string; description: string; referenceImage: string; reverse: boolean }>;
+export type Integration = Readonly<{ name: string; referenceAsset: string }>;
+export type Partner = Readonly<{ name: string; referenceAsset: string }>;
+export type Testimonial = Readonly<{ quote: string; name: string; role: string }>;
+export type Article = Readonly<{ title: string; href: string; category: string; date: string; readTime: string; excerpt: string; referenceImage: string }>;
+export type FaqItem = Readonly<{ question: string; answer: string }>;
+export type ChatMessage = Readonly<{ sender: "user" | "ai"; text: string }>;
